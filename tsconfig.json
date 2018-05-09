@@ -5,12 +5,12 @@
     "target": "es5",
     "sourceMap": false,
     "inlineSources": false,
-    "declaration": false,
+    "declaration": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "stripInternal": true,
     "skipLibCheck": true
-},
+  },
   "files": [
     "index.ts"
   ]
