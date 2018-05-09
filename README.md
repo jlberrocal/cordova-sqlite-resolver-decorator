@@ -3,12 +3,12 @@ The main idea is to turn SQLResultSets into Arrays of expected types, this decor
 
 # Usage Examples
 ```typescript
-@SqLiteResolver()
+@SqLiteResolver<RowProcess>()
 getAll(): Observable<RowProcess[]> {
   return this.fromPromise(this.db.executeSql("SELECT * FROM users", []));
 }
 
-@SqLiteResolver()
+@SqLiteResolver<RowProcess>()
 getAllByPromise(): Promise<RowProcess[]> {
   return this.db.executeSql("SELECT * FROM users", []);
   });
