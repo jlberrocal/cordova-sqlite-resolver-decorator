@@ -8,9 +8,25 @@ getAll(): Observable<RowProcess[]> {
   return this.fromPromise(this.db.executeSql("SELECT * FROM users", []));
 }
 
+/**
+ * Take in mind that if you use the *Promise* based method you'll be able to use async/await sintax without problems
+ * 
+ * @example
+ * async getUsers() {
+ *   let users = await this.usersService.getAllByPromise();
+ *   console.log(users);
+ * }
+ */
 @SqLiteResolver<RowProcess>()
 getAllByPromise(): Promise<RowProcess[]> {
   return this.db.executeSql("SELECT * FROM users", []);
   });
 }
 ```
+
+# Available decorators:
+## SqLiteResolver
+## SqLiteResolveInsert
+## SqLiteResolveChanges
+
+All of the above methods will work in the same way as explained in examples above

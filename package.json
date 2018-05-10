@@ -1,6 +1,6 @@
 {
   "name": "cordova-sqlite-resolver-decorator",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Provides an easy way to interact with Cordova SQLResultSets",
   "main": "index.js",
   "scripts": {

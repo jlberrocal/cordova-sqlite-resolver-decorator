@@ -5,17 +5,29 @@ import { map } from "rxjs/operators";
 export class SqLiteResolverAux<T> {
     resolveFromObservable(source: Observable<SqlResultSet<T>>) {
         return source.pipe(
-            map(
-                (data: SqlResultSet<T>) => this.getArray(data)
-            )
+            map(this.getArray)
         );
     };
 
     resolveFromPromise(source: Promise<SqlResultSet<T>>) {
-        return source.then(
-            (data: SqlResultSet<T>) => this.getArray(data)
-        );
+        return source.then(this.getArray);
     };
+
+    resolveInsertFromObservable(source: Observable<SqlResultSet<void>>) {
+        return source.pipe(map(this.getInsertId));
+    }
+
+    resolveInsertFromPromise(source: Promise<SqlResultSet<void>>) {
+        return source.then(this.getInsertId);
+    }
+
+    resolveChangesFromObservable(source: Observable<SqlResultSet<void>>) {
+        return source.pipe(map(this.getChanges));
+    }
+
+    resolveChangesFromPromise(source: Promise<SqlResultSet<void>>) {
+        return source.then(this.getChanges);
+    }
 
     private getArray(data: SqlResultSet<T>): T[] {
         const values: T[] = [];
@@ -25,4 +37,12 @@ export class SqLiteResolverAux<T> {
 
         return values;
     };
+
+    private getInsertId(data: SqlResultSet<T>): number {
+        return data.insertId;
+    }
+
+    private getChanges(data: SqlResultSet<T>): number {
+        return data.rowsAffected;
+    }
 }
