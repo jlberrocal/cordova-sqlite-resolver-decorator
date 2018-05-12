@@ -4,4 +4,5 @@ export interface SqlResultSet<T> {
     insertId: number;
     rowsAffected: number;
     rows: SqlResultSetRow<T>;
+    new(): T;
 }

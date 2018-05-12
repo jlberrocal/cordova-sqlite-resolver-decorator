@@ -4,13 +4,19 @@ import { map } from "rxjs/operators";
 
 export class SqLiteResolverAux<T> {
     resolveFromObservable(source: Observable<SqlResultSet<T>>) {
-        return source.pipe(
-            map(this.getArray)
-        );
+        return source.pipe(map(this.getArray));
     };
 
     resolveFromPromise(source: Promise<SqlResultSet<T>>) {
         return source.then(this.getArray);
+    };
+
+    resolveOneFromObservable(source: Observable<SqlResultSet<T>>) {
+        return source.pipe(map(this.getOne));
+    };
+
+    resolveOneFromPromise(source: Promise<SqlResultSet<T>>) {
+        return source.then(this.getOne);
     };
 
     resolveInsertFromObservable(source: Observable<SqlResultSet<void>>) {
@@ -36,7 +42,14 @@ export class SqLiteResolverAux<T> {
             values.push(data.rows.item(i));
 
         return values;
-    };
+    }
+
+    private getOne(data: SqlResultSet<T>): T {
+        const values = this.getArray(data);
+        if (values.length > 1)
+            throw new Error("result set have more than one value");
+        return values[0];
+    }
 
     private getInsertId(data: SqlResultSet<T>): number {
         return data.insertId;

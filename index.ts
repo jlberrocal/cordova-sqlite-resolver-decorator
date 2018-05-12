@@ -23,6 +23,28 @@ export function SqLiteResolver<T>() {
     };
 }
 
+export function SqLiteResolveOne<T>() {
+    const aux = new SqLiteResolverAux<T>();
+
+    return function Resolver(target, propertyKey: string, descriptor: PropertyDescriptor) {
+        const originalValue = descriptor.value;
+
+        descriptor.value = function () {
+            let resolved: any = originalValue.apply(this, arguments);
+            if (resolved instanceof Observable) {
+                resolved = aux.resolveOneFromObservable(resolved);
+            } else if (resolved.then) {
+                resolved = aux.resolveOneFromPromise(resolved);
+            } else {
+                throw new Error('This decorator only support working with Observables or Promises');
+            }
+
+            return resolved;
+        };
+        return descriptor;
+    };
+}
+
 export function SqLiteResolveInsert() {
     const aux = new SqLiteResolverAux();
 
