@@ -18,7 +18,9 @@
     "SQLite",
     "SQLResultSet",
     "Decorator",
-    "Resolver"
+    "Resolver",
+    "TypeScript",
+    "SqLite3"
   ],
   "author": "jlberrocal",
   "license": "MIT",
